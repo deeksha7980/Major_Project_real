@@ -1,5 +1,17 @@
-# Audio Dataset (Excluded)
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+
+# Audio Dataset (Excluded per user request)
 Cattle sounds database (raw data)/
+
+# Temporary root test media & generated reports
+*.mp4
+*.mp3
+*.wav
+!media/
+reports/*
 
 # Python & Pycache
 __pycache__/
@@ -7,6 +19,12 @@ __pycache__/
 *.pyo
 *.pyd
 *.db
+
+# Media Uploads & Outputs
+media/videos/*
+media/audio/*
+media/outputs/*
+media/frames/*
 
 # Virtual Environment
 venv/

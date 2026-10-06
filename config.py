@@ -1,4 +1,9 @@
 import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -26,8 +31,8 @@ ALLOWED_VIDEO = {"mp4", "avi", "mov", "mkv", "webm"}
 ALLOWED_AUDIO = {"wav", "mp3", "m4a", "flac", "ogg", "aac"}
 
 # ---------- Telegram ----------
-TELEGRAM_BOT_TOKEN = "8614269440:AAHsITznIg3KIahap32wHft2qMEH5MU3Lfc"
-TELEGRAM_CHAT_ID   = "1039027361"
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "YOUR_TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID   = os.getenv("TELEGRAM_CHAT_ID", "YOUR_TELEGRAM_CHAT_ID")
 
 # ---------- Pipeline & Temporal Config ----------
 YOLO_MODEL = os.path.join(BASE_DIR, "cattle.pt")
@@ -62,5 +67,4 @@ ANOMALY_PCT_DEVIATION    = 0.50
 INTERACTION_PROXIMITY_THRESHOLD = 0.20 # IoU or overlap ratio
 
 # ---------- Auth ----------
-SECRET_KEY = "change-this-secret-key-in-production"
-
+SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-here")
