@@ -1,0 +1,95 @@
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\frames
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\reports
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\logs
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\instance
+=== pipeline_runner starting for prediction #6 ===
+cwd: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app
+video: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos\2_1791318602_eb3832_667.mp4 exists=True
+out_video target: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_6.mp4
+Telegram callback loaded
+[pipeline 02:00:11] START pid=6
+[pipeline 02:00:11] video     = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos\2_1791318602_eb3832_667.mp4  exists=True
+[pipeline 02:00:11] left      = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\2_1791318602_eb3832_L_high1.mp3
+[pipeline 02:00:11] right     = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\2_1791318602_eb3832_R_high.mp3
+[pipeline 02:00:11] out_video = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_6.mp4
+[pipeline 02:00:11] Loading YOLO model: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\cattle.pt  exists=True
+[pipeline 02:00:11] YOLO loaded OK
+[pipeline 02:00:12] DeepSORT ready
+[CattleAudioClassifier] Loaded model weights from D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\cattle_audio_cnn.pth
+[pipeline 02:00:12] Loading LEFT audio: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\2_1791318602_eb3832_L_high1.mp3
+[pipeline 02:00:13] Loading RIGHT audio: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\2_1791318602_eb3832_R_high.mp3
+[pipeline 02:00:14] Audio CNN OK: 3 windows analyzed with PyTorch Audio Classifier
+[pipeline 02:00:14] Fusion weights: video=0.65 audio=0.35
+[pipeline 02:00:14] Video opened: fps=25.00  frames=250
+[pipeline 02:00:14] VideoWriter ready → D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_6.mp4
+[pipeline 02:00:14] OpenCV window opened
+C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\functional.py:445: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at  ..\aten\src\ATen\native\TensorShape.cpp:2157.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+[pipeline 02:00:15] --------------------------------------------------
+[pipeline 02:00:15] AUDIO ALERT DEBUG
+[pipeline 02:00:15] Window:
+00:00.00 - 00:01.00
+[pipeline 02:00:15] LEFT:
+class = High-frequency call (HFC)
+HFC = 0.7561
+LFC = 0.2439
+[pipeline 02:00:15] RIGHT:
+class = High-frequency call (HFC)
+HFC = 0.9743
+LFC = 0.0257
+[pipeline 02:00:15] Audio agreement:
+0.8652
+[pipeline 02:00:15] Combined audio state:
+HIGH_CONFIDENCE_HFC
+[pipeline 02:00:15] Video anomaly:
+FALSE
+[pipeline 02:00:15] Audio alert condition:
+TRUE
+[pipeline 02:00:15] Multimodal alert condition:
+FALSE
+[pipeline 02:00:15] Final alert:
+TRUE
+[pipeline 02:00:15] Reason:
+Both microphones detected high-confidence HFC (Left: 75.6%, Right: 97.4%)
+[pipeline 02:00:15] --------------------------------------------------
+[pipeline 02:00:15] ALERT HIGH_FREQUENCY_CALL_ALERT: Both microphones detected high-confidence HFC (Left: 75.6%, Right: 97.4%)
+[pipeline 02:00:40] --------------------------------------------------
+[pipeline 02:00:40] AUDIO ALERT DEBUG
+[pipeline 02:00:40] Window:
+00:01.00 - 00:02.00
+[pipeline 02:00:40] LEFT:
+class = High-frequency call (HFC)
+HFC = 0.9356
+LFC = 0.0644
+[pipeline 02:00:40] RIGHT:
+class = High-frequency call (HFC)
+HFC = 0.9912
+LFC = 0.0088
+[pipeline 02:00:40] Audio agreement:
+0.9634
+[pipeline 02:00:40] Combined audio state:
+HIGH_CONFIDENCE_HFC
+[pipeline 02:00:40] Video anomaly:
+FALSE
+[pipeline 02:00:40] Audio alert condition:
+TRUE
+[pipeline 02:00:40] Multimodal alert condition:
+FALSE
+[pipeline 02:00:40] Final alert:
+TRUE
+[pipeline 02:00:40] Reason:
+Both microphones detected high-confidence HFC (Left: 93.6%, Right: 99.1%)
+[pipeline 02:00:40] --------------------------------------------------
+[pipeline 02:00:40] ALERT HIGH_FREQUENCY_CALL_ALERT: Both microphones detected high-confidence HFC (Left: 93.6%, Right: 99.1%)
+[pipeline 02:00:47] frame 30/250  active=9  cows_total=9
+[pipeline 02:00:59] User pressed Q — stopping early.
+[pipeline 02:00:59] Re-encoding for browser: C:\ffmpeg\bin\ffmpeg.EXE -y -i D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_6.mp4 -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -movflags +faststart -an D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_6_h264.mp4
+[pipeline 02:01:00] re-encoded OK → D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_6.mp4 (335821 bytes)
+[pipeline 02:01:00] Video file size on disk: 335821 bytes
+[pipeline 02:01:00] DONE pid=6 cows=9 alerts=2
+PIPELINE_RESULT: {'total_cows': 9, 'total_alerts': 2, 'user_quit': True}
+OUTPUT SIZES: {'video': 335821, 'csv': 1141, 'html': 409}
+=== pipeline_runner finished ===

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}CowCareAI Monitoring Platform{% endblock %}</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Styles & Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐄</text></svg>">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  {% if session.get('user_id') %}
+  <!-- Persistent Sidebar Shell -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand-logo"><i class="fas fa-brain"></i></div>
+      <div class="brand-title">CowCare<span>AI</span></div>
+    </div>
+    
+    <ul class="sidebar-menu">
+      <li class="menu-item">
+        <a href="{{ url_for('dashboard') }}" class="menu-link {% if request.endpoint == 'dashboard' %}active{% endif %}">
+          <i class="fas fa-chart-pie"></i> <span>Overview</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="{{ url_for('predict') }}" class="menu-link {% if request.endpoint == 'predict' %}active{% endif %}">
+          <i class="fas fa-video"></i> <span>Monitoring Session</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="{{ url_for('sessions') }}" class="menu-link {% if request.endpoint == 'sessions' %}active{% endif %}">
+          <i class="fas fa-list-check"></i> <span>Sessions</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="{{ url_for('cows') }}" class="menu-link {% if request.endpoint in ['cows', 'cow_detail'] %}active{% endif %}">
+          <i class="fas fa-cow"></i> <span>Herd & Cows</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="{{ url_for('alerts_page') }}" class="menu-link {% if request.endpoint == 'alerts_page' %}active{% endif %}">
+          <i class="fas fa-bell"></i> <span>Alert Center</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="{{ url_for('analytics_page') }}" class="menu-link {% if request.endpoint == 'analytics_page' %}active{% endif %}">
+          <i class="fas fa-chart-line"></i> <span>Analytics</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="{{ url_for('reports_page') }}" class="menu-link {% if request.endpoint == 'reports_page' %}active{% endif %}">
+          <i class="fas fa-file-contract"></i> <span>Reports</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="{{ url_for('settings_page') }}" class="menu-link {% if request.endpoint == 'settings_page' %}active{% endif %}">
+          <i class="fas fa-gear"></i> <span>Settings</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div class="system-status">
+        <div class="status-dot"></div>
+        <span>AI Engine Online</span>
+      </div>
+      <div class="user-profile">
+        <div class="user-avatar">{{ session.get('username', 'U')[0].upper() }}</div>
+        <div class="user-info">
+          <div class="user-name">{{ session.get('username', 'User') }}</div>
+          <div class="user-role">Operator</div>
+        </div>
+        <a href="{{ url_for('logout') }}" class="btn-logout" title="Logout"><i class="fas fa-arrow-right-from-bracket"></i></a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div class="main-wrapper">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title">{% block page_title %}Monitoring Center{% endblock %}</h1>
+      </div>
+      <div class="topbar-right">
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Dark/Light Mode">
+          <i class="fas fa-sun"></i>
+        </button>
+        <a href="{{ url_for('predict') }}" class="btn-new-session">
+          <i class="fas fa-plus"></i> New Session
+        </a>
+      </div>
+    </header>
+
+    <!-- Flash Messages Container -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-container" style="padding: 16px 32px 0 32px;">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}" style="padding: 12px 18px; border-radius: 8px; margin-bottom: 10px; font-size: 14px; font-weight: 500;">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Page Body -->
+    <main class="content-body">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  {% else %}
+  <!-- Full Width Layout for Auth / Unauthenticated Pages -->
+  <div style="width: 100%; min-height: 100vh;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-container" style="max-width: 440px; margin: 20px auto 0 auto;">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}" style="padding: 12px 18px; border-radius: 8px; font-size: 14px;">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block unauth_content %}{% endblock %}
+  </div>
+  {% endif %}
+
+  <!-- Platform JS -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

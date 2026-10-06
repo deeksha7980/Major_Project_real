@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+{% block title %}Cow {{ cow_id }} Profile — CowCareAI{% endblock %}
+{% block page_title %}Cow {{ cow_id }} Detailed Analytics{% endblock %}
+
+{% block content %}
+<!-- Back Navigation & Header -->
+<div style="margin-bottom: 20px;">
+  <a href="{{ url_for('result', pid=pred.id) }}" style="font-size: 13px; color: var(--accent-blue); text-decoration: none; font-weight: 600;">
+    <i class="fas fa-arrow-left"></i> Back to Session {{ pred.session_code or ('SESSION_' ~ pred.id) }}
+  </a>
+</div>
+
+<!-- Cow Header KPI Card -->
+<div class="card" style="background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95)); border-color: var(--border-color); margin-bottom: 28px;">
+  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <div style="width: 56px; height: 56px; border-radius: 12px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); display: flex; align-items: center; justify-content: center; font-size: 26px; color: #fff;">
+        <i class="fas fa-cow"></i>
+      </div>
+      <div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+          <h2 style="font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; color: var(--text-main);">Cow ID: {{ cow_id }}</h2>
+          <span class="badge-status {% if (profile.risk_score or 0) >= 60 %}high{% elif (profile.risk_score or 0) >= 30 %}attention{% else %}normal{% endif %}">
+            ● {{ profile.risk_status if profile else 'NORMAL' }}
+          </span>
+        </div>
+        <div style="font-size: 13px; color: var(--text-secondary);">
+          Monitored in Session <code style="color: var(--accent-blue);">{{ pred.session_code or ('SESSION_' ~ pred.id) }}</code> ({{ pred.farm_name or 'Main Farm' }})
+        </div>
+      </div>
+    </div>
+
+    <!-- Risk Score Display -->
+    <div style="text-align: right;">
+      <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">INDIVIDUAL RISK SCORE</div>
+      <div style="font-family: 'Outfit', sans-serif; font-size: 36px; font-weight: 800; color: {% if (profile.risk_score or 0) >= 60 %}var(--accent-red){% elif (profile.risk_score or 0) >= 30 %}var(--accent-amber){% else %}var(--accent-green){% endif %}; margin-top: -4px;">
+        {{ profile.risk_score or 0.0 }} <span style="font-size: 16px; color: var(--text-muted); font-weight: 500;">/ 100</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Layout Grid -->
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 28px;">
+  
+  <!-- Left Column: Behavior Distribution, Timeline, Baseline -->
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    
+    <!-- Behavior Distribution -->
+    <div class="card" style="margin-bottom: 0;">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-pie-chart" style="color: var(--accent-blue);"></i>
+          Behavior Distribution %
+        </div>
+        <span style="font-size: 13px; color: var(--text-muted);">Visible for {{ profile.visible_duration or 0 }}s</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; margin-bottom: 20px;">
+        <div style="background: rgba(0,0,0,0.1); padding: 14px; border-radius: 8px; text-align: center;">
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">STANDING</div>
+          <div style="font-size: 22px; font-weight: 700; color: var(--accent-blue);">{{ profile.standing_pct or 0 }}%</div>
+        </div>
+        <div style="background: rgba(0,0,0,0.1); padding: 14px; border-radius: 8px; text-align: center;">
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">LYING</div>
+          <div style="font-size: 22px; font-weight: 700; color: var(--accent-green);">{{ profile.lying_pct or 0 }}%</div>
+        </div>
+        <div style="background: rgba(0,0,0,0.1); padding: 14px; border-radius: 8px; text-align: center;">
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">EATING</div>
+          <div style="font-size: 22px; font-weight: 700; color: var(--accent-amber);">{{ profile.eating_pct or 0 }}%</div>
+        </div>
+        <div style="background: rgba(0,0,0,0.1); padding: 14px; border-radius: 8px; text-align: center;">
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">DRINKING</div>
+          <div style="font-size: 22px; font-weight: 700; color: #06b6d4;">{{ profile.drinking_pct or 0 }}%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Behavior Timeline -->
+    <div class="card" style="margin-bottom: 0;">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-timeline" style="color: var(--accent-purple);"></i>
+          Chronological Behavior Timeline
+        </div>
+      </div>
+
+      {% if timelines %}
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        {% for t in timelines %}
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(0,0,0,0.1); border-radius: 8px; border-left: 4px solid var(--accent-blue);">
+          <div>
+            <span style="font-family: monospace; font-weight: 700; color: var(--accent-blue);">
+              {{ "%.1f"|format(t.start_time) }}s – {{ "%.1f"|format(t.end_time) }}s
+            </span>
+            <span style="margin-left: 12px; font-weight: 600; color: var(--text-main);">
+              {{ t.behavior | capitalize }}
+            </span>
+          </div>
+          <span style="font-size: 12px; color: var(--text-muted);">
+            Movement: {{ "%.2f"|format(t.movement or 0) }}
+          </span>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+        No continuous behavior timeline intervals recorded.
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Historical Baseline Comparison -->
+    <div class="card" style="margin-bottom: 0;">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-scale-balanced" style="color: var(--accent-green);"></i>
+          Historical Baseline Comparison
+        </div>
+      </div>
+
+      {% if baseline %}
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div style="background: rgba(0,0,0,0.1); padding: 14px; border-radius: 8px;">
+          <div style="font-size: 12px; color: var(--text-muted);">HISTORICAL STANDING BASELINE</div>
+          <div style="font-size: 18px; font-weight: 700; color: var(--text-main);">{{ "%.1f"|format((baseline.standing_mean or 0.35) * 100) }}%</div>
+          <div style="font-size: 12px; color: var(--accent-amber); margin-top: 4px;">
+            Current Session: {{ profile.standing_pct or 0 }}%
+          </div>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.1); padding: 14px; border-radius: 8px;">
+          <div style="font-size: 12px; color: var(--text-muted);">HISTORICAL MOVEMENT BASELINE</div>
+          <div style="font-size: 18px; font-weight: 700; color: var(--text-main);">{{ "%.2f"|format(baseline.movement_mean or 0.30) }}</div>
+          <div style="font-size: 12px; color: var(--accent-blue); margin-top: 4px;">
+            Current Session: {{ "%.2f"|format(profile.movement_score or 0.30) }}
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+        <i class="fas fa-info-circle" style="font-size: 24px; margin-bottom: 8px;"></i>
+        <p style="font-size: 14px;">Historical Baseline Unavailable</p>
+        <p style="font-size: 12px; margin-top: 2px;">Baseline will populate automatically after additional historical observations.</p>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- Right Column: Anomalies & Risk Breakdown -->
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    
+    <!-- Detected Statistical Anomalies -->
+    <div class="card" style="margin-bottom: 0;">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-triangle-exclamation" style="color: var(--accent-amber);"></i>
+          Detected Anomalies ({{ anomalies | length }})
+        </div>
+      </div>
+
+      {% if anomalies %}
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        {% for a in anomalies %}
+        <div style="padding: 12px 14px; background: rgba(0,0,0,0.1); border-radius: 8px; border-left: 4px solid var(--accent-amber);">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+            <strong style="color: var(--accent-amber);">{{ a.feature | capitalize }} Anomaly</strong>
+            <span class="badge-status attention">{{ a.severity.upper() }}</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-main); margin-bottom: 4px;">{{ a.explanation }}</p>
+          <div style="font-size: 11px; color: var(--text-muted);">
+            Deviation: +{{ "%.1f"|format(a.deviation_pct or 0) }}% from baseline
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+        <i class="fas fa-check-circle" style="font-size: 28px; color: var(--accent-green); margin-bottom: 8px;"></i>
+        <p style="font-size: 13px;">No Statistical Anomalies Detected</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Individual Risk Contributor Breakdown -->
+    <div class="card" style="margin-bottom: 0;">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-bars-progress" style="color: var(--accent-blue);"></i>
+          Risk Contributors Breakdown
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; font-size: 13px;">
+        <div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: var(--text-secondary);">Movement Activity</span>
+            <strong style="color: var(--accent-blue);">{{ "%.1f"|format((profile.movement_score or 0.1) * 50) }}</strong>
+          </div>
+          <div style="height: 6px; background: rgba(0,0,0,0.2); border-radius: 3px; overflow: hidden;">
+            <div style="width: {{ "%.0f"|format((profile.movement_score or 0.1) * 100) }}%; height: 100%; background: var(--accent-blue);"></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: var(--text-secondary);">State Transitions</span>
+            <strong style="color: var(--accent-amber);">{{ profile.transitions_count or 0 }}</strong>
+          </div>
+          <div style="height: 6px; background: rgba(0,0,0,0.2); border-radius: 3px; overflow: hidden;">
+            <div style="width: {{ (profile.transitions_count or 0) * 20 }}%; height: 100%; background: var(--accent-amber);"></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+            <span style="color: var(--text-secondary);">Audio Vocalizations</span>
+            <strong style="color: var(--accent-red);">{{ profile.audio_event_count or 0 }}</strong>
+          </div>
+          <div style="height: 6px; background: rgba(0,0,0,0.2); border-radius: 3px; overflow: hidden;">
+            <div style="width: {{ (profile.audio_event_count or 0) * 25 }}%; height: 100%; background: var(--accent-red);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

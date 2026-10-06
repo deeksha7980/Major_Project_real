@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Analytics Workspace — CowCareAI{% endblock %}
+{% block page_title %}Herd Analytics Workspace{% endblock %}
+
+{% block content %}
+<!-- Analytics Charts Row -->
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px;">
+  <!-- Historical Risk Trends Chart -->
+  <div class="card" style="margin-bottom: 0;">
+    <div class="card-header">
+      <div class="card-title">
+        <i class="fas fa-chart-line" style="color: var(--accent-blue);"></i>
+        Session Risk Trend Analysis
+      </div>
+    </div>
+    <div style="height: 240px; position: relative;">
+      <canvas id="analyticsRiskChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Herd Behavior Distribution -->
+  <div class="card" style="margin-bottom: 0;">
+    <div class="card-header">
+      <div class="card-title">
+        <i class="fas fa-chart-pie" style="color: var(--accent-purple);"></i>
+        Aggregated Herd Behavior %
+      </div>
+    </div>
+    <div style="height: 240px; position: relative;">
+      <canvas id="analyticsBehaviorChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Spatial Cow Interaction Graph / Table -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">
+      <i class="fas fa-network-wired" style="color: var(--accent-green);"></i>
+      Spatial Cow Proximity & Interaction Graph ({{ interactions | length }})
+    </div>
+    <span style="font-size: 13px; color: var(--text-muted);">Bounding-Box IoU & Centroid Proximity</span>
+  </div>
+
+  {% if interactions %}
+  <div class="table-responsive">
+    <table class="platform-table">
+      <thead>
+        <tr>
+          <th>Session</th>
+          <th>Cow A</th>
+          <th>Cow B</th>
+          <th>Time Interval</th>
+          <th>Duration</th>
+          <th>Proximity Score</th>
+          <th>Interaction Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in interactions %}
+        <tr>
+          <td><code style="color: var(--accent-blue);">{{ i.session_code }}</code></td>
+          <td><strong style="color: var(--text-main);">Cow {{ i.cow_a }}</strong></td>
+          <td><strong style="color: var(--text-main);">Cow {{ i.cow_b }}</strong></td>
+          <td>{{ "%.1f"|format(i.start_time) }}s – {{ "%.1f"|format(i.end_time) }}s</td>
+          <td>{{ "%.1f"|format(i.duration) }}s</td>
+          <td><span style="color: var(--accent-amber); font-weight: 600;">{{ "%.2f"|format(i.proximity_score or 0.8) }}</span></td>
+          <td><span class="badge-status blue">{{ i.interaction_type or 'Proximity Event' }}</span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+    <i class="fas fa-circle-info" style="font-size: 36px; margin-bottom: 12px;"></i>
+    <p style="font-size: 15px; font-weight: 500; color: var(--text-main);">No Proximity Interactions Detected</p>
+    <p style="font-size: 13px; margin-top: 4px;">Cow interaction records will populate when animals come into spatial proximity during video processing.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('/api/overview_stats')
+    .then(res => res.json())
+    .then(data => {
+      const riskCtx = document.getElementById('analyticsRiskChart');
+      if (riskCtx && data.risk_trend) {
+        new Chart(riskCtx, {
+          type: 'line',
+          data: {
+            labels: data.risk_trend.map(item => item.session_code),
+            datasets: [{
+              label: 'Overall Risk Score',
+              data: data.risk_trend.map(item => item.risk),
+              borderColor: '#3b82f6',
+              backgroundColor: 'rgba(59, 130, 246, 0.15)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.3
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+      }
+
+      const behCtx = document.getElementById('analyticsBehaviorChart');
+      if (behCtx && data.behavior_avg) {
+        new Chart(behCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Standing', 'Lying', 'Eating', 'Drinking', 'Aggressive'],
+            datasets: [{
+              data: [
+                data.behavior_avg.standing,
+                data.behavior_avg.lying,
+                data.behavior_avg.eating,
+                data.behavior_avg.drinking,
+                data.behavior_avg.aggressive
+              ],
+              backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#06b6d4', '#ef4444']
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+      }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,9 @@
+Flask==3.0.0
+Werkzeug==3.0.1
+ultralytics
+deep-sort-realtime
+opencv-python
+librosa
+numpy
+soundfile
+telepot

@@ -1,0 +1,44 @@
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\frames
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\reports
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\logs
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\instance
+=== pipeline_runner starting for prediction #3 ===
+cwd: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app
+video: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos\2_1791316539_6e1c50_667.mp4 exists=True
+out_video target: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_3.mp4
+Telegram callback loaded
+[pipeline 01:25:51] START pid=3
+[pipeline 01:25:51] video     = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos\2_1791316539_6e1c50_667.mp4  exists=True
+[pipeline 01:25:51] left      = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\2_1791316539_6e1c50_L_low1.mp3
+[pipeline 01:25:51] right     = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\2_1791316539_6e1c50_R_high1.mp3
+[pipeline 01:25:51] out_video = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_3.mp4
+[pipeline 01:25:51] Loading YOLO model: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\cattle.pt  exists=True
+[pipeline 01:25:51] YOLO loaded OK
+[pipeline 01:25:52] DeepSORT ready
+[pipeline 01:25:52] Loading LEFT audio: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\2_1791316539_6e1c50_L_low1.mp3
+[pipeline 01:25:52] Loading RIGHT audio: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\2_1791316539_6e1c50_R_high1.mp3
+[pipeline 01:25:52] Audio OK: 9 windows
+[pipeline 01:25:52] Fusion weights: video=0.65 audio=0.35
+[pipeline 01:25:52] Video opened: fps=25.00  frames=250
+[pipeline 01:25:52] VideoWriter ready → D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_3.mp4
+[pipeline 01:25:52] OpenCV window opened
+C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\functional.py:445: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at  ..\aten\src\ATen\native\TensorShape.cpp:2157.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+[pipeline 01:26:21] frame 30/250  active=9  cows_total=9
+[pipeline 01:26:48] frame 60/250  active=9  cows_total=9
+[pipeline 01:27:14] frame 90/250  active=9  cows_total=9
+[pipeline 01:27:39] frame 120/250  active=9  cows_total=9
+[pipeline 01:28:05] frame 150/250  active=11  cows_total=12
+[pipeline 01:28:36] frame 180/250  active=11  cows_total=12
+[pipeline 01:29:02] frame 210/250  active=9  cows_total=12
+[pipeline 01:29:32] frame 240/250  active=10  cows_total=14
+[pipeline 01:29:40] Re-encoding for browser: C:\ffmpeg\bin\ffmpeg.EXE -y -i D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_3.mp4 -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -movflags +faststart -an D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_3_h264.mp4
+[pipeline 01:29:42] re-encoded OK → D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_3.mp4 (1458538 bytes)
+[pipeline 01:29:42] Video file size on disk: 1458538 bytes
+[pipeline 01:29:42] DONE pid=3 cows=14 alerts=0
+PIPELINE_RESULT: {'total_cows': 14, 'total_alerts': 0, 'user_quit': False}
+OUTPUT SIZES: {'video': 1458538, 'csv': 6003, 'html': 172}
+=== pipeline_runner finished ===

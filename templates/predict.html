@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% block title %}Create Monitoring Session — CowCareAI{% endblock %}
+{% block page_title %}Create Monitoring Session{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+  
+  <!-- Upload Form Container -->
+  <div class="card" id="uploadCard">
+    <div class="card-header">
+      <div class="card-title">
+        <i class="fas fa-circle-plus" style="color: var(--accent-blue);"></i>
+        Initiate Livestock Monitoring Session
+      </div>
+      <span style="font-size: 13px; color: var(--text-muted);">Synchronized Multimodal Input</span>
+    </div>
+
+    <form id="sessionForm" action="{{ url_for('predict') }}" method="POST" enctype="multipart/form-data">
+      
+      <!-- Optional Metadata Inputs -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; padding: 20px; background-color: rgba(0,0,0,0.1); border-radius: 10px; border: 1px solid var(--border-color);">
+        <div>
+          <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px;">
+            FARM / FACILITY NAME
+          </label>
+          <input type="text" name="farm_name" placeholder="e.g. North Pasture Farm" value="Main Farm" style="width: 100%; padding: 10px 12px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main); font-size: 14px;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px;">
+            LOCATION / BARN
+          </label>
+          <input type="text" name="location" placeholder="e.g. Barn A - Sector 3" value="Barn A" style="width: 100%; padding: 10px 12px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main); font-size: 14px;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px;">
+            CAMERA / SENSOR ID
+          </label>
+          <input type="text" name="camera_id" placeholder="e.g. CAM-NORTH-01" value="CAM-01" style="width: 100%; padding: 10px 12px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main); font-size: 14px;">
+        </div>
+      </div>
+
+      <!-- Video File Dropzone (Required) -->
+      <div style="margin-bottom: 24px;">
+        <label style="display: block; font-size: 14px; font-weight: 600; color: var(--text-main); margin-bottom: 8px;">
+          Surveillance Video Recording <span style="color: var(--accent-red);">*</span>
+        </label>
+        <div class="dropzone-container" id="videoDropzone">
+          <input type="file" name="video" id="videoInput" accept="video/mp4,video/avi,video/mov" required style="display: none;">
+          <div class="dropzone-icon"><i class="fas fa-file-video"></i></div>
+          <div class="dropzone-title" id="videoTitle">Drag & Drop Surveillance Video</div>
+          <div class="dropzone-sub" id="videoSub">Supports MP4, AVI, MOV (20–30 seconds recommended)</div>
+        </div>
+      </div>
+
+      <!-- Dual Microphone Audio Dropzones (Optional / Recommended) -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+        <!-- Left Audio -->
+        <div>
+          <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-main); margin-bottom: 8px;">
+            LEFT Microphone Audio <span style="font-size: 12px; color: var(--text-muted);">(Optional)</span>
+          </label>
+          <div class="dropzone-container" id="leftDropzone" style="padding: 20px;">
+            <input type="file" name="left_audio" id="leftInput" accept="audio/*" style="display: none;">
+            <div class="dropzone-icon" style="font-size: 28px; color: var(--accent-purple);"><i class="fas fa-microphone"></i></div>
+            <div class="dropzone-title" id="leftTitle" style="font-size: 13px;">Drop LEFT Audio</div>
+            <div class="dropzone-sub" id="leftSub">MP3, WAV audio</div>
+          </div>
+        </div>
+
+        <!-- Right Audio -->
+        <div>
+          <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-main); margin-bottom: 8px;">
+            RIGHT Microphone Audio <span style="font-size: 12px; color: var(--text-muted);">(Optional)</span>
+          </label>
+          <div class="dropzone-container" id="rightDropzone" style="padding: 20px;">
+            <input type="file" name="right_audio" id="rightInput" accept="audio/*" style="display: none;">
+            <div class="dropzone-icon" style="font-size: 28px; color: var(--accent-amber);"><i class="fas fa-microphone"></i></div>
+            <div class="dropzone-title" id="rightTitle" style="font-size: 13px;">Drop RIGHT Audio</div>
+            <div class="dropzone-sub" id="rightSub">MP3, WAV audio</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Stream Duration Synchronization Check Box -->
+      <div id="syncBox" style="display: none; padding: 16px; background-color: var(--accent-green-bg); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-circle-check" style="color: var(--accent-green); font-size: 20px;"></i>
+            <div>
+              <div style="font-weight: 600; font-size: 14px; color: var(--accent-green);" id="syncStatusText">✓ Streams Synchronized</div>
+              <div style="font-size: 12px; color: var(--text-secondary);" id="syncDetailText">Video: 30.0s | Left Audio: 30.0s | Right Audio: 30.0s</div>
+            </div>
+          </div>
+          <span class="badge-status normal">VALIDATED</span>
+        </div>
+      </div>
+
+      <!-- Submit CTA -->
+      <button type="submit" id="submitBtn" class="btn-new-session" style="width: 100%; justify-content: center; padding: 14px; font-size: 16px;">
+        <i class="fas fa-play"></i> START MULTIMODAL ANALYSIS
+      </button>
+
+    </form>
+  </div>
+
+  <!-- Real-Time Processing UI (Visible on Submission) -->
+  <div class="card" id="processingCard" style="display: none;">
+    <div style="text-align: center; padding: 32px 20px;">
+      <div style="width: 64px; height: 64px; border: 4px solid var(--accent-blue-bg); border-top-color: var(--accent-blue); border-radius: 50%; animation: spin 1s infinite linear; margin: 0 auto 20px auto;"></div>
+      
+      <h3 style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
+        Analyzing Monitoring Session...
+      </h3>
+      <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 28px;">
+        Extracting video bounding boxes, tracking DeepSORT cow IDs, evaluating dual audio CNN calls, and correlating multimodal risk events.
+      </p>
+
+      <!-- Processing Stage Steps -->
+      <div style="max-width: 500px; margin: 0 auto; text-align: left; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: var(--accent-green);">
+          <i class="fas fa-check-circle"></i> 1. Stream Duration & Sync Probing
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: var(--accent-blue);">
+          <i class="fas fa-spinner fa-spin"></i> 2. YOLOv8 Cattle Detection & DeepSORT Tracking
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-muted);">
+          <i class="far fa-circle"></i> 3. Dual PyTorch Audio CNN Spectrogram Inference
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-muted);">
+          <i class="far fa-circle"></i> 4. 5-Second Window Multimodal Event Engine
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-muted);">
+          <i class="far fa-circle"></i> 5. Statistical Anomaly & Risk Engine Synthesis
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  setupDropzone('videoDropzone', 'videoInput', 'videoTitle', 'videoSub', 'Video');
+  setupDropzone('leftDropzone', 'leftInput', 'leftTitle', 'leftSub', 'Left Audio');
+  setupDropzone('rightDropzone', 'rightInput', 'rightTitle', 'rightSub', 'Right Audio');
+
+  const form = document.getElementById('sessionForm');
+  const uploadCard = document.getElementById('uploadCard');
+  const processingCard = document.getElementById('processingCard');
+
+  if (form) {
+    form.addEventListener('submit', () => {
+      uploadCard.style.display = 'none';
+      processingCard.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+});
+
+function setupDropzone(zoneId, inputId, titleId, subId, label) {
+  const zone = document.getElementById(zoneId);
+  const input = document.getElementById(inputId);
+  const title = document.getElementById(titleId);
+  const sub = document.getElementById(subId);
+
+  if (!zone || !input) return;
+
+  zone.addEventListener('click', () => input.click());
+
+  zone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    zone.classList.add('dragover');
+  });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    zone.classList.remove('dragover');
+    if (e.dataTransfer.files.length) {
+      input.files = e.dataTransfer.files;
+      updateFileLabel(input.files[0], title, sub, label);
+      checkDurations();
+    }
+  });
+
+  input.addEventListener('change', () => {
+    if (input.files.length) {
+      updateFileLabel(input.files[0], title, sub, label);
+      checkDurations();
+    }
+  });
+}
+
+function updateFileLabel(file, titleEl, subEl, label) {
+  if (titleEl) titleEl.innerHTML = `<span style="color: var(--accent-green);">✓ ${file.name}</span>`;
+  if (subEl) subEl.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB — ${label} Selected`;
+}
+
+function checkDurations() {
+  const videoFile = document.getElementById('videoInput').files[0];
+  const leftFile = document.getElementById('leftInput').files[0];
+  const rightFile = document.getElementById('rightInput').files[0];
+  const syncBox = document.getElementById('syncBox');
+
+  if (videoFile) {
+    if (syncBox) syncBox.style.display = 'block';
+  }
+}
+</script>
+
+<style>
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Herd & Cows — CowCareAI{% endblock %}
+{% block page_title %}Herd Overview & Individual Cows{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">
+      <i class="fas fa-cow" style="color: var(--accent-blue);"></i>
+      All Tracked Cow Profiles Across Sessions ({{ cow_profiles | length }})
+    </div>
+  </div>
+
+  {% if cow_profiles %}
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+    {% for cow in cow_profiles %}
+    <div style="background-color: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: var(--text-main);">
+            Cow {{ cow.cow_id }}
+          </div>
+          <span class="badge-status {% if cow.risk_score >= 60 %}high{% elif cow.risk_score >= 30 %}attention{% else %}normal{% endif %}">
+            Risk {{ cow.risk_score or 0 }}
+          </span>
+        </div>
+
+        <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+          Session: <code style="color: var(--accent-blue);">{{ cow.session_code }}</code>
+        </div>
+        <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+          Dominant Behavior: <strong style="color: var(--text-main);">{{ (cow.dominant_behavior or 'Standing') | capitalize }}</strong>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted);">
+          <span><i class="fas fa-clock"></i> {{ cow.visible_duration or 0 }}s Visible</span>
+          <span><i class="fas fa-bolt"></i> {{ cow.anomaly_count or 0 }} Anomalies</span>
+          <span><i class="fas fa-waveform"></i> {{ cow.audio_event_count or 0 }} Calls</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 18px;">
+        <a href="{{ url_for('cow_detail', pid=cow.prediction_id, cow_id=cow.cow_id) }}" class="btn-action" style="width: 100%; justify-content: center;">
+          View Full Cow Profile <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div style="padding: 40px; text-align: center; color: var(--text-muted);">
+    <i class="fas fa-cow" style="font-size: 40px; margin-bottom: 12px;"></i>
+    <p style="font-size: 15px; font-weight: 500; color: var(--text-main);">No Cow Profiles Monitored Yet</p>
+    <p style="font-size: 13px; margin-top: 4px;">Run a monitoring session to detect and track individual cows.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

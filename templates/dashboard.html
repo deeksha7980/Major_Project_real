@@ -1,0 +1,408 @@
+{% extends "base.html" %}
+{% block title %}Overview — CowCareAI Platform{% endblock %}
+{% block page_title %}Herd Overview & Monitoring Center{% endblock %}
+
+{% block content %}
+<!-- Welcome & Header Panel -->
+<div class="card" style="background: linear-gradient(135deg, #1e293b, #0f172a); border-color: var(--border-color); margin-bottom: 28px;">
+  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+    <div>
+      <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--accent-blue); background: var(--accent-blue-bg); padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;">
+        <i class="fas fa-shield-halved"></i> Real-time Livestock Intelligence Engine
+      </div>
+      <h2 style="font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+        Welcome back, {{ session.get('username', 'Operator') }}
+      </h2>
+      <p style="font-size: 14px; color: var(--text-secondary); max-width: 600px;">
+        Multimodal behavioral analysis, dual-mic acoustic zone tracking, statistical anomaly detection, and explainable risk scoring.
+      </p>
+    </div>
+    <div>
+      <a href="{{ url_for('predict') }}" class="btn-new-session" style="padding: 12px 22px; font-size: 14px;">
+        <i class="fas fa-plus-circle"></i> + New Monitoring Session
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- KPI Summary Row -->
+<div class="kpi-grid">
+  <div class="kpi-card blue">
+    <div class="kpi-label"><i class="fas fa-cow"></i> Total Cows Monitored</div>
+    <div class="kpi-val">{{ stats.total_cows }}</div>
+    <div class="kpi-subtext">Active DeepSORT Cow Profiles</div>
+  </div>
+
+  <div class="kpi-card blue">
+    <div class="kpi-label"><i class="fas fa-folder-open"></i> Monitoring Sessions</div>
+    <div class="kpi-val">{{ stats.total_sessions }}</div>
+    <div class="kpi-subtext">Recorded & Analyzed Sessions</div>
+  </div>
+
+  <div class="kpi-card amber">
+    <div class="kpi-label"><i class="fas fa-chart-line-up"></i> Statistical Anomalies</div>
+    <div class="kpi-val" style="color: var(--accent-amber);">{{ stats.total_anomalies }}</div>
+    <div class="kpi-subtext">Behavioral & Movement Deviations</div>
+  </div>
+
+  <div class="kpi-card red">
+    <div class="kpi-label"><i class="fas fa-triangle-exclamation"></i> Active Alerts</div>
+    <div class="kpi-val" style="color: var(--accent-red);">{{ stats.total_alerts }}</div>
+    <div class="kpi-subtext">HFC Vocalizations & Anomalies</div>
+  </div>
+
+  <div class="kpi-card {% if stats.avg_risk >= 60 %}red{% elif stats.avg_risk >= 30 %}amber{% else %}green{% endif %}">
+    <div class="kpi-label"><i class="fas fa-gauge-high"></i> Average Herd Risk</div>
+    <div style="display: flex; align-items: baseline; gap: 8px;">
+      <div class="kpi-val">{{ stats.avg_risk }}</div>
+      <span style="font-size: 14px; color: var(--text-muted);">/ 100</span>
+    </div>
+    <div class="kpi-subtext">
+      {% if stats.avg_risk >= 60 %}
+        <span class="badge-status elevated">Elevated Risk</span>
+      {% elif stats.avg_risk >= 30 %}
+        <span class="badge-status attention">Attention</span>
+      {% else %}
+        <span class="badge-status normal">Normal</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Main Grid Layout: Current Session & Charts -->
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 28px;">
+  <!-- Left Column: Risk Trend Chart & Latest Session -->
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    
+    <!-- Latest / Current Session Card -->
+    {% if latest %}
+    <div class="card" style="margin-bottom: 0;">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-satellite-dish" style="color: var(--accent-blue);"></i>
+          Latest Monitoring Session
+        </div>
+        <span class="badge-status {% if latest.status == 'done' %}normal{% elif latest.status == 'pending' %}attention{% else %}high{% endif %}">
+          ● {{ latest.status.upper() }}
+        </span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 16px; padding: 16px; background-color: rgba(0,0,0,0.1); border-radius: 8px;">
+        <div>
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">SESSION CODE</div>
+          <div style="font-family: monospace; font-weight: 700; color: var(--accent-blue);">{{ latest.session_code or 'SESSION_' ~ latest.id }}</div>
+        </div>
+        <div>
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">LOCATION / FARM</div>
+          <div style="font-weight: 600; color: var(--text-main);">{{ latest.farm_name or 'Main Farm' }} ({{ latest.location or 'Barn A' }})</div>
+        </div>
+        <div>
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">STREAM SYNC</div>
+          <div style="font-weight: 600; color: var(--accent-green);">✓ {{ latest.sync_status or 'Streams Synchronized' }}</div>
+        </div>
+        <div>
+          <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">RISK SCORE</div>
+          <div style="font-weight: 700; font-size: 16px; color: {% if (latest.overall_risk or 0) >= 60 %}var(--accent-red){% elif (latest.overall_risk or 0) >= 30 %}var(--accent-amber){% else %}var(--accent-green){% endif %};">
+            {{ latest.overall_risk or 0.0 }} / 100
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="font-size: 13px; color: var(--text-secondary);">
+          <i class="fas fa-clock"></i> Recorded {{ latest.created }}
+        </div>
+        <a href="{{ url_for('result', pid=latest.id) }}" class="btn-action" style="background: var(--accent-blue); color: #fff; border: none; font-weight: 600;">
+          Open Session Dashboard <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Risk Over Time Line Chart -->
+    <div class="card" style="margin-bottom: 0;">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-chart-line" style="color: var(--accent-purple);"></i>
+          Herd Risk Over Time
+        </div>
+        <span style="font-size: 12px; color: var(--text-muted);">Historical Session Index</span>
+      </div>
+      <div style="height: 260px; position: relative;">
+        <canvas id="riskTrendChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Herd Status Donut & Behavior Distribution -->
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    <!-- Herd Status Breakdown -->
+    <div class="card" style="margin-bottom: 0;">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-heart-pulse" style="color: var(--accent-green);"></i>
+          Herd Status Distribution
+        </div>
+      </div>
+      <div style="height: 180px; position: relative; display: flex; justify-content: center; align-items: center;">
+        <canvas id="herdStatusChart"></canvas>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; font-size: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="width: 10px; height: 10px; border-radius: 50%; background-color: var(--accent-green);"></span>
+          <span>Normal: <strong>{{ stats.herd_status.NORMAL }}</strong></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="width: 10px; height: 10px; border-radius: 50%; background-color: var(--accent-amber);"></span>
+          <span>Attention: <strong>{{ stats.herd_status.ATTENTION }}</strong></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="width: 10px; height: 10px; border-radius: 50%; background-color: #f97316;"></span>
+          <span>Elevated: <strong>{{ stats.herd_status.ELEVATED }}</strong></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="width: 10px; height: 10px; border-radius: 50%; background-color: var(--accent-red);"></span>
+          <span>High Risk: <strong>{{ stats.herd_status.HIGH }}</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Behavior Distribution Doughnut -->
+    <div class="card" style="margin-bottom: 0;">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fas fa-shapes" style="color: var(--accent-amber);"></i>
+          Behavior Distribution
+        </div>
+      </div>
+      <div style="height: 180px; position: relative;">
+        <canvas id="behaviorChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cows Requiring Attention Section -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">
+      <i class="fas fa-triangle-exclamation" style="color: var(--accent-amber);"></i>
+      Cows Requiring Attention
+    </div>
+    <a href="{{ url_for('cows') }}" style="font-size: 13px; color: var(--accent-blue); text-decoration: none; font-weight: 600;">View All Herd Cows <i class="fas fa-chevron-right"></i></a>
+  </div>
+
+  {% if attention_cows %}
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+    {% for cow in attention_cows %}
+    <div style="background-color: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; color: var(--text-main);">
+            <i class="fas fa-cow" style="color: var(--accent-blue); margin-right: 6px;"></i> Cow {{ cow.cow_id }}
+          </div>
+          <span class="badge-status {% if cow.risk_score >= 60 %}high{% else %}attention{% endif %}">
+            Risk {{ cow.risk_score or 0 }}
+          </span>
+        </div>
+
+        <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+          Dominant Behavior: <strong style="color: var(--text-main);">{{ (cow.dominant_behavior or 'Standing') | capitalize }}</strong>
+        </div>
+        <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+          Session: <code style="color: var(--accent-blue);">{{ cow.session_code }}</code>
+        </div>
+
+        <div style="display: flex; gap: 16px; margin-top: 14px; font-size: 12px; color: var(--text-muted);">
+          <div><i class="fas fa-clock"></i> {{ cow.visible_duration or 0 }}s Visible</div>
+          <div><i class="fas fa-bolt"></i> {{ cow.anomaly_count or 0 }} Anomalies</div>
+          <div><i class="fas fa-waveform"></i> {{ cow.audio_event_count or 0 }} Audio Calls</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px; text-align: right;">
+        <a href="{{ url_for('cow_detail', pid=cow.prediction_id, cow_id=cow.cow_id) }}" class="btn-action">
+          View Cow Profile <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div style="text-align: center; padding: 32px 20px; color: var(--text-muted);">
+    <i class="fas fa-circle-check" style="font-size: 36px; color: var(--accent-green); margin-bottom: 12px;"></i>
+    <p style="font-size: 15px; font-weight: 500; color: var(--text-main);">No Cows Requiring Immediate Attention</p>
+    <p style="font-size: 13px; margin-top: 4px;">All monitored animals are operating within normal behavioral parameters.</p>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Recent Sessions Table -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">
+      <i class="fas fa-clock-rotate-left" style="color: var(--accent-blue);"></i>
+      Recent Monitoring Sessions
+    </div>
+    <a href="{{ url_for('sessions') }}" style="font-size: 13px; color: var(--accent-blue); text-decoration: none; font-weight: 600;">View All Sessions <i class="fas fa-chevron-right"></i></a>
+  </div>
+
+  {% if predictions %}
+  <div class="table-responsive">
+    <table class="platform-table">
+      <thead>
+        <tr>
+          <th>Session Code</th>
+          <th>Farm / Location</th>
+          <th>Created Date</th>
+          <th>Cows Monitored</th>
+          <th>Alerts</th>
+          <th>Overall Risk</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in predictions[:8] %}
+        <tr>
+          <td><strong style="font-family: monospace; color: var(--accent-blue);">{{ p.session_code or ('SESSION_' ~ p.id) }}</strong></td>
+          <td>{{ p.farm_name or 'Main Farm' }} ({{ p.location or 'Barn A' }})</td>
+          <td>{{ p.created }}</td>
+          <td><i class="fas fa-cow" style="color: var(--text-muted);"></i> {{ p.total_cows or 0 }}</td>
+          <td>
+            {% if (p.total_alerts or 0) > 0 %}
+              <span class="badge-status high">{{ p.total_alerts }} Alerts</span>
+            {% else %}
+              <span style="color: var(--text-muted);">0</span>
+            {% endif %}
+          </td>
+          <td>
+            <span style="font-weight: 700; color: {% if (p.overall_risk or 0) >= 60 %}var(--accent-red){% elif (p.overall_risk or 0) >= 30 %}var(--accent-amber){% else %}var(--accent-green){% endif %};">
+              {{ p.overall_risk or 0.0 }} / 100
+            </span>
+          </td>
+          <td>
+            <span class="badge-status {% if p.status == 'done' %}normal{% elif p.status == 'pending' %}attention{% else %}high{% endif %}">
+              ● {{ p.status.upper() }}
+            </span>
+          </td>
+          <td>
+            <a href="{{ url_for('result', pid=p.id) }}" class="btn-action">
+              <i class="fas fa-eye"></i> View Dashboard
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
+    <i class="fas fa-folder-open" style="font-size: 40px; margin-bottom: 12px;"></i>
+    <p style="font-size: 15px; font-weight: 500; color: var(--text-main);">No Monitoring Sessions Yet</p>
+    <p style="font-size: 13px; margin-top: 4px; margin-bottom: 20px;">Start your first analysis to begin building herd intelligence and risk analytics.</p>
+    <a href="{{ url_for('predict') }}" class="btn-new-session" style="display: inline-flex;">
+      <i class="fas fa-plus-circle"></i> Create First Session
+    </a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Fetch overview stats for dynamic charts
+  fetch('/api/overview_stats')
+    .then(res => res.json())
+    .then(data => {
+      // Risk Trend Line Chart
+      const riskCtx = document.getElementById('riskTrendChart');
+      if (riskCtx && data.risk_trend) {
+        new Chart(riskCtx, {
+          type: 'line',
+          data: {
+            labels: data.risk_trend.map(item => item.session_code),
+            datasets: [{
+              label: 'Overall Risk Score',
+              data: data.risk_trend.map(item => item.risk),
+              borderColor: '#3b82f6',
+              backgroundColor: 'rgba(59, 130, 246, 0.15)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.35,
+              pointRadius: 5,
+              pointBackgroundColor: '#3b82f6'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.05)' } },
+              x: { grid: { display: false } }
+            }
+          }
+        });
+      }
+
+      // Herd Status Donut Chart
+      const statusCtx = document.getElementById('herdStatusChart');
+      if (statusCtx) {
+        const statusData = {{ stats.herd_status | tojson }};
+        new Chart(statusCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Normal', 'Attention', 'Elevated', 'High Risk'],
+            datasets: [{
+              data: [statusData.NORMAL, statusData.ATTENTION, statusData.ELEVATED, statusData.HIGH],
+              backgroundColor: ['#10b981', '#f59e0b', '#f97316', '#ef4444'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            cutout: '70%'
+          }
+        });
+      }
+
+      // Behavior Distribution Chart
+      const behCtx = document.getElementById('behaviorChart');
+      if (behCtx && data.behavior_avg) {
+        new Chart(behCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Standing', 'Lying', 'Eating', 'Drinking', 'Aggressive'],
+            datasets: [{
+              label: 'Average Herd %',
+              data: [
+                data.behavior_avg.standing,
+                data.behavior_avg.lying,
+                data.behavior_avg.eating,
+                data.behavior_avg.drinking,
+                data.behavior_avg.aggressive
+              ],
+              backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#06b6d4', '#ef4444'],
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.05)' } },
+              x: { grid: { display: false } }
+            }
+          }
+        });
+      }
+    })
+    .catch(err => console.error('Overview stats error:', err));
+});
+</script>
+{% endblock %}

@@ -1,0 +1,102 @@
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.0.2 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\pipeline_runner.py", line 5, in <module>
+    from pipeline import run as pipeline_run
+  File "D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\pipeline.py", line 11, in <module>
+    from ultralytics import YOLO
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\ultralytics\__init__.py", line 14, in <module>
+    from ultralytics.utils import ASSETS, SETTINGS
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\ultralytics\utils\__init__.py", line 26, in <module>
+    import torch
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\__init__.py", line 643, in <module>
+    from .functional import *  # noqa: F403
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\functional.py", line 6, in <module>
+    import torch.nn.functional as F
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\nn\__init__.py", line 1, in <module>
+    from .modules import *  # noqa: F403
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\nn\modules\__init__.py", line 2, in <module>
+    from .linear import Identity, Linear, Bilinear, LazyLinear
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\nn\modules\linear.py", line 6, in <module>
+    from .. import functional as F
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\nn\functional.py", line 11, in <module>
+    from .._jit_internal import boolean_dispatch, _overload, BroadcastingList1, BroadcastingList2, BroadcastingList3
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\_jit_internal.py", line 28, in <module>
+    import torch.package._mangling as package_mangling
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\package\__init__.py", line 12, in <module>
+    from .package_importer import PackageImporter
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\package\package_importer.py", line 16, in <module>
+    from ._directory_reader import DirectoryReader
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\package\_directory_reader.py", line 17, in <module>
+    _dtype_to_storage = {data_type(0).dtype: data_type for data_type in _storages}
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\package\_directory_reader.py", line 17, in <dictcomp>
+    _dtype_to_storage = {data_type(0).dtype: data_type for data_type in _storages}
+C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\package\_directory_reader.py:17: UserWarning: Failed to initialize NumPy: _ARRAY_API not found (Triggered internally at  ..\torch\csrc\utils\tensor_numpy.cpp:68.)
+  _dtype_to_storage = {data_type(0).dtype: data_type for data_type in _storages}
+=== pipeline_runner starting for prediction #16 ===
+cwd: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app
+video: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos\1_1791201199_0c5119_664.mp4 exists=True
+out_video target: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_16.mp4
+Telegram disabled: No module named 'telepot'
+[pipeline 17:23:28] START pid=16
+[pipeline 17:23:28] video     = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos\1_1791201199_0c5119_664.mp4  exists=True
+[pipeline 17:23:28] left      = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\1_1791201199_0c5119_L_low2.mp3
+[pipeline 17:23:28] right     = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\1_1791201199_0c5119_R_high2.mp3
+[pipeline 17:23:28] out_video = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_16.mp4
+[pipeline 17:23:28] Loading YOLO model: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\cattle.pt  exists=True
+[pipeline 17:23:28] YOLO loaded OK
+!!! PIPELINE CRASHED: Numpy is not available
+Traceback (most recent call last):
+  File "D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\pipeline_runner.py", line 52, in main
+    result = pipeline_run(
+  File "D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\pipeline.py", line 233, in run
+    tracker = DeepSort(max_age=30, n_init=2, max_iou_distance=0.7)
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\deep_sort_realtime\deepsort_tracker.py", line 108, in __init__
+    self.embedder = Embedder(
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\deep_sort_realtime\embedder\embedder_pytorch.py", line 76, in __init__
+    self.predict([zeros])  # warmup
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\deep_sort_realtime\embedder\embedder_pytorch.py", line 127, in predict
+    preproc_imgs = [self.preprocess(img) for img in np_images]
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\deep_sort_realtime\embedder\embedder_pytorch.py", line 127, in <listcomp>
+    preproc_imgs = [self.preprocess(img) for img in np_images]
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\deep_sort_realtime\embedder\embedder_pytorch.py", line 106, in preprocess
+    input_image = trans(input_image)
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torchvision\transforms\transforms.py", line 61, in __call__
+    img = t(img)
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torchvision\transforms\transforms.py", line 98, in __call__
+    return F.to_tensor(pic)
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torchvision\transforms\functional.py", line 126, in to_tensor
+    img = torch.from_numpy(pic.transpose((2, 0, 1))).contiguous()
+RuntimeError: Numpy is not available
+=== pipeline_runner finished ===
+Traceback (most recent call last):
+  File "D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\pipeline_runner.py", line 91, in <module>
+    main()
+  File "D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\pipeline_runner.py", line 52, in main
+    result = pipeline_run(
+  File "D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\pipeline.py", line 233, in run
+    tracker = DeepSort(max_age=30, n_init=2, max_iou_distance=0.7)
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\deep_sort_realtime\deepsort_tracker.py", line 108, in __init__
+    self.embedder = Embedder(
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\deep_sort_realtime\embedder\embedder_pytorch.py", line 76, in __init__
+    self.predict([zeros])  # warmup
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\deep_sort_realtime\embedder\embedder_pytorch.py", line 127, in predict
+    preproc_imgs = [self.preprocess(img) for img in np_images]
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\deep_sort_realtime\embedder\embedder_pytorch.py", line 127, in <listcomp>
+    preproc_imgs = [self.preprocess(img) for img in np_images]
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\deep_sort_realtime\embedder\embedder_pytorch.py", line 106, in preprocess
+    input_image = trans(input_image)
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torchvision\transforms\transforms.py", line 61, in __call__
+    img = t(img)
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torchvision\transforms\transforms.py", line 98, in __call__
+    return F.to_tensor(pic)
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torchvision\transforms\functional.py", line 126, in to_tensor
+    img = torch.from_numpy(pic.transpose((2, 0, 1))).contiguous()
+RuntimeError: Numpy is not available

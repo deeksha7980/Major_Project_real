@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\pipeline_runner.py", line 5, in <module>
+    from pipeline import run as pipeline_run
+  File "D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\pipeline.py", line 10, in <module>
+    import librosa
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\librosa\__init__.py", line 209, in <module>
+    from . import core
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\librosa\core\__init__.py", line 5, in <module>
+    from .convert import *  # pylint: disable=wildcard-import
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\librosa\core\convert.py", line 7, in <module>
+    from . import notation
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\librosa\core\notation.py", line 8, in <module>
+    from ..util.exceptions import ParameterError
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\librosa\util\__init__.py", line 78, in <module>
+    from .files import *  # pylint: disable=wildcard-import
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\librosa\util\files.py", line 10, in <module>
+    from pkg_resources import resource_filename
+ModuleNotFoundError: No module named 'pkg_resources'

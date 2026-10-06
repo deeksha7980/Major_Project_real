@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Prediction #{{ pred.id }}{% endblock %}
+
+{% block content %}
+<h1>Prediction #{{ pred.id }} — {{ pred.status }}</h1>
+<p>Created {{ pred.created }} | Cows: {{ pred.total_cows }} | Alerts: {{ pred.total_alerts }}</p>
+
+{% if pred.status in ['pending','running'] %}
+  <div class="alert-box info">
+    Pipeline is running — an OpenCV window should be open on the server.
+    Press <b>Q</b> in it to stop early.
+  </div>
+  <p>Status: <b id="status-val">{{ pred.status }}</b></p>
+  <script>
+    const iv = setInterval(async () => {
+      const r = await fetch("/api/prediction_status/{{ pred.id }}");
+      const j = await r.json();
+      document.getElementById("status-val").textContent = j.status;
+      if (j.status === "done" || j.status === "failed") {
+        clearInterval(iv);
+        location.href = "{{ url_for('result', pid=pred.id) }}";
+      }
+    }, 4000);
+  </script>
+{% elif pred.status == 'failed' %}
+  <div class="alert-box danger">Prediction failed. Check server console.</div>
+{% else %}
+  <a class="btn-primary" href="{{ url_for('result', pid=pred.id) }}">View Full Result</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,1 @@
+# CowCareAI Intelligence Services Package

@@ -1,0 +1,34 @@
+=== pipeline_runner starting for prediction #5 ===
+cwd: C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app
+video: C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\videos\1_1791018416_b60c00_667.mp4 exists=True
+out_video target: C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\outputs\out_5.mp4
+Telegram callback loaded
+[pipeline 14:37:09] START pid=5
+[pipeline 14:37:09] video     = C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\videos\1_1791018416_b60c00_667.mp4  exists=True
+[pipeline 14:37:09] left      = C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\audio\1_1791018416_b60c00_L_low.mp3
+[pipeline 14:37:09] right     = C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\audio\1_1791018416_b60c00_R_high.mp3
+[pipeline 14:37:09] out_video = C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\outputs\out_5.mp4
+[pipeline 14:37:09] Loading YOLO model: C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\cattle.pt  exists=True
+[pipeline 14:37:09] YOLO loaded OK
+[pipeline 14:37:13] DeepSORT ready
+[pipeline 14:37:13] Loading LEFT audio: C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\audio\1_1791018416_b60c00_L_low.mp3
+[pipeline 14:37:23] Loading RIGHT audio: C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\audio\1_1791018416_b60c00_R_high.mp3
+[pipeline 14:37:24] Audio OK: 6 windows
+[pipeline 14:37:24] Fusion weights: video=0.65 audio=0.35
+[pipeline 14:37:24] Video opened: fps=25.00  frames=250
+[pipeline 14:37:24] VideoWriter ready → C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\outputs\out_5.mp4
+[pipeline 14:37:24] OpenCV window opened
+[pipeline 14:38:03] ALERT ABNORMAL_VOCALIZATION: Abnormal vocalization on RIGHT side
+[pipeline 14:38:12] frame 30/250  active=9  cows_total=9
+[pipeline 14:38:48] frame 60/250  active=9  cows_total=9
+[pipeline 14:39:25] frame 90/250  active=9  cows_total=9
+[pipeline 14:39:59] frame 120/250  active=9  cows_total=9
+[pipeline 14:40:36] frame 150/250  active=11  cows_total=12
+[pipeline 14:41:17] frame 180/250  active=11  cows_total=12
+[pipeline 14:41:53] frame 210/250  active=9  cows_total=12
+[pipeline 14:42:31] frame 240/250  active=10  cows_total=14
+[pipeline 14:42:44] Video file size on disk: 7510244 bytes
+[pipeline 14:42:44] DONE pid=5 cows=14 alerts=1
+PIPELINE_RESULT: {'total_cows': 14, 'total_alerts': 1, 'user_quit': False}
+OUTPUT SIZES: {'video': 7510244, 'csv': 5993, 'html': 249}
+=== pipeline_runner finished ===

@@ -1,0 +1,30 @@
+=== pipeline_runner starting for prediction #8 ===
+cwd: C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app
+video: C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\videos\1_1791026775_937498_668.mp4 exists=True
+out_video target: C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\outputs\out_8.mp4
+Telegram callback loaded
+[pipeline 16:56:46] START pid=8
+[pipeline 16:56:46] video     = C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\videos\1_1791026775_937498_668.mp4  exists=True
+[pipeline 16:56:46] left      = C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\audio\1_1791026775_937498_L_high.mp3
+[pipeline 16:56:46] right     = C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\audio\1_1791026775_937498_R_low.mp3
+[pipeline 16:56:46] out_video = C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\outputs\out_8.mp4
+[pipeline 16:56:46] Loading YOLO model: C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\cattle.pt  exists=True
+[pipeline 16:56:47] YOLO loaded OK
+[pipeline 16:56:56] DeepSORT ready
+[pipeline 16:56:56] Loading LEFT audio: C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\audio\1_1791026775_937498_L_high.mp3
+[pipeline 16:57:14] Loading RIGHT audio: C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\audio\1_1791026775_937498_R_low.mp3
+[pipeline 16:57:15] Audio OK: 6 windows
+[pipeline 16:57:15] Fusion weights: video=0.65 audio=0.35
+[pipeline 16:57:15] Video opened: fps=25.00  frames=250
+[pipeline 16:57:15] VideoWriter ready → C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\outputs\out_8.mp4
+[pipeline 16:57:15] OpenCV window opened
+[pipeline 16:59:28] frame 30/250  active=27  cows_total=27
+[pipeline 17:00:41] frame 60/250  active=27  cows_total=29
+[pipeline 17:01:15] User pressed Q — stopping early.
+[pipeline 17:01:15] Re-encoding for browser: C:\ffmpeg\bin\ffmpeg.EXE -y -i C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\outputs\out_8.mp4 -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -movflags +faststart -an C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\outputs\out_8_h264.mp4
+[pipeline 17:01:16] re-encoded OK → C:\Users\DELL\Downloads\COW_BEHAVIOUR\livestock_monitoring_flask_app\media\outputs\out_8.mp4 (1195641 bytes)
+[pipeline 17:01:17] Video file size on disk: 1195641 bytes
+[pipeline 17:01:17] DONE pid=8 cows=29 alerts=0
+PIPELINE_RESULT: {'total_cows': 29, 'total_alerts': 0, 'user_quit': True}
+OUTPUT SIZES: {'video': 1195641, 'csv': 5030, 'html': 172}
+=== pipeline_runner finished ===

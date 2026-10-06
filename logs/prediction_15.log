@@ -1,0 +1,96 @@
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\frames
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\reports
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\logs
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\instance
+=== pipeline_runner starting for prediction #15 ===
+cwd: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app
+video: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos\2_1791321454_beb84c_719.mp4 exists=True
+out_video target: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_15.mp4
+Telegram callback loaded
+[pipeline 02:47:46] START pid=15
+[pipeline 02:47:46] video     = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos\2_1791321454_beb84c_719.mp4  exists=True
+[pipeline 02:47:46] left      = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\2_1791321454_beb84c_L_HFC_07.30_1.wav
+[pipeline 02:47:46] right     = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\2_1791321454_beb84c_R_LFC_07.45.wav
+[pipeline 02:47:46] out_video = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_15.mp4
+[pipeline 02:47:46] Session Sync: Streams Synchronized (Video: 10.0s, L: 10.0s, R: 10.0s)
+[pipeline 02:47:46] Loading YOLO model: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\cattle.pt  exists=True
+[pipeline 02:47:46] YOLO loaded OK
+[pipeline 02:47:47] DeepSORT ready
+[CattleAudioClassifier] Loaded model weights from D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\cattle_audio_cnn.pth
+[pipeline 02:47:48] Loading LEFT audio: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\2_1791321454_beb84c_L_HFC_07.30_1.wav
+[pipeline 02:47:50] Loading RIGHT audio: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\2_1791321454_beb84c_R_LFC_07.45.wav
+[pipeline 02:47:51] Audio CNN OK: 3 windows analyzed with PyTorch Audio Classifier
+[pipeline 02:47:51] Fusion weights: video=0.65 audio=0.35
+[pipeline 02:47:51] Video opened: fps=25.00  frames=250
+[pipeline 02:47:51] VideoWriter ready → D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_15.mp4
+[pipeline 02:47:51] OpenCV window opened
+C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\functional.py:445: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at  ..\aten\src\ATen\native\TensorShape.cpp:2157.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+[pipeline 02:47:55] --------------------------------------------------
+[pipeline 02:47:55] AUDIO ALERT DEBUG
+[pipeline 02:47:55] Window:
+00:00.00 - 00:01.00
+[pipeline 02:47:55] LEFT:
+class = Low-frequency call (LFC)
+HFC = 0.0612
+LFC = 0.9388
+[pipeline 02:47:55] RIGHT:
+class = Low-frequency call (LFC)
+HFC = 0.0092
+LFC = 0.9908
+[pipeline 02:47:55] Audio agreement:
+0.0352
+[pipeline 02:47:55] Combined audio state:
+NO_HFC_EVENT
+[pipeline 02:47:55] Video anomaly:
+FALSE
+[pipeline 02:47:55] Audio alert condition:
+FALSE
+[pipeline 02:47:55] Multimodal alert condition:
+FALSE
+[pipeline 02:47:55] Final alert:
+FALSE
+[pipeline 02:47:55] Reason:
+No significant HFC vocalization detected (Left HFC: 6.1%, Right HFC: 0.9%)
+[pipeline 02:47:55] --------------------------------------------------
+[pipeline 02:49:09] --------------------------------------------------
+[pipeline 02:49:09] AUDIO ALERT DEBUG
+[pipeline 02:49:09] Window:
+00:01.00 - 00:02.00
+[pipeline 02:49:09] LEFT:
+class = High-frequency call (HFC)
+HFC = 0.8985
+LFC = 0.1015
+[pipeline 02:49:09] RIGHT:
+class = Low-frequency call (LFC)
+HFC = 0.2359
+LFC = 0.7641
+[pipeline 02:49:09] Audio agreement:
+0.5672
+[pipeline 02:49:09] Combined audio state:
+LEFT_HFC
+[pipeline 02:49:09] Video anomaly:
+FALSE
+[pipeline 02:49:09] Audio alert condition:
+TRUE
+[pipeline 02:49:09] Multimodal alert condition:
+FALSE
+[pipeline 02:49:09] Final alert:
+TRUE
+[pipeline 02:49:09] Reason:
+Left microphone detected HFC (Confidence: 89.9%)
+[pipeline 02:49:09] --------------------------------------------------
+[pipeline 02:49:09] ALERT HIGH_FREQUENCY_CALL_ALERT: Left microphone detected HFC (Confidence: 89.9%)
+[pipeline 02:49:24] frame 30/250  active=23  cows_total=23
+[pipeline 02:49:39] User pressed Q — stopping early.
+[pipeline 02:49:39] Re-encoding for browser: C:\ffmpeg\bin\ffmpeg.EXE -y -i D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_15.mp4 -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -movflags +faststart -an D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_15_h264.mp4
+[pipeline 02:49:40] re-encoded OK → D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_15.mp4 (492791 bytes)
+[pipeline 02:49:40] === RUNNING POST-PROCESSING INTELLIGENCE ENGINE ===
+[pipeline 02:49:40] HERD INTELLIGENCE SUMMARY: Total Cows=23, Events=23, Anomalies=0, Risk Score=45.7 (LOW ATTENTION)
+[pipeline 02:49:40] DONE pid=15 cows=23 events=23 alerts=1
+PIPELINE_RESULT: {'total_cows': 23, 'total_events': 23, 'total_anomalies': 0, 'total_alerts': 1, 'overall_risk': 45.7, 'user_quit': True}
+OUTPUT SIZES: {'video': 492791, 'csv': 8050, 'html': 24817}
+=== pipeline_runner finished ===

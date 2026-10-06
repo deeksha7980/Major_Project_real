@@ -1,0 +1,37 @@
+=== pipeline_runner starting for prediction #17 ===
+cwd: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app
+video: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos\1_1791201266_1a2e9f_664.mp4 exists=True
+out_video target: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_17.mp4
+Telegram disabled: No module named 'telepot'
+[pipeline 17:24:35] START pid=17
+[pipeline 17:24:35] video     = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos\1_1791201266_1a2e9f_664.mp4  exists=True
+[pipeline 17:24:35] left      = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\1_1791201266_1a2e9f_L_low2.mp3
+[pipeline 17:24:35] right     = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\1_1791201266_1a2e9f_R_high2.mp3
+[pipeline 17:24:35] out_video = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_17.mp4
+[pipeline 17:24:35] Loading YOLO model: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\cattle.pt  exists=True
+[pipeline 17:24:35] YOLO loaded OK
+[pipeline 17:24:36] DeepSORT ready
+[pipeline 17:24:36] Loading LEFT audio: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\1_1791201266_1a2e9f_L_low2.mp3
+[pipeline 17:24:36] Loading RIGHT audio: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\1_1791201266_1a2e9f_R_high2.mp3
+[pipeline 17:24:36] Audio OK: 6 windows
+[pipeline 17:24:36] Fusion weights: video=0.65 audio=0.35
+[pipeline 17:24:36] Video opened: fps=25.00  frames=250
+[pipeline 17:24:36] VideoWriter ready → D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_17.mp4
+[pipeline 17:24:37] OpenCV window opened
+C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\functional.py:445: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at  ..\aten\src\ATen\native\TensorShape.cpp:2157.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+[pipeline 17:25:07] frame 30/250  active=11  cows_total=11
+[pipeline 17:25:27] ALERT ABNORMAL_VOCALIZATION: Abnormal vocalization on RIGHT side
+[pipeline 17:25:37] frame 60/250  active=11  cows_total=12
+[pipeline 17:26:09] frame 90/250  active=14  cows_total=15
+[pipeline 17:26:43] frame 120/250  active=12  cows_total=15
+[pipeline 17:27:15] frame 150/250  active=12  cows_total=15
+[pipeline 17:27:48] frame 180/250  active=11  cows_total=15
+[pipeline 17:28:20] frame 210/250  active=12  cows_total=16
+[pipeline 17:28:53] frame 240/250  active=13  cows_total=18
+[pipeline 17:29:04] ffmpeg not found on PATH — output may not play in browsers
+[pipeline 17:29:04] Video file size on disk: 7104297 bytes
+[pipeline 17:29:04] DONE pid=17 cows=18 alerts=1
+PIPELINE_RESULT: {'total_cows': 18, 'total_alerts': 1, 'user_quit': False}
+OUTPUT SIZES: {'video': 7104297, 'csv': 7280, 'html': 250}
+=== pipeline_runner finished ===

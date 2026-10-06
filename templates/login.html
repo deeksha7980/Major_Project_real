@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Login — CowCareAI{% endblock %}
+
+{% block unauth_content %}
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.1), transparent); padding: 20px;">
+  <div class="card" style="width: 100%; max-width: 420px; padding: 40px 32px; box-shadow: var(--shadow-md); border-color: var(--border-color);">
+    <div style="text-align: center; margin-bottom: 32px;">
+      <div class="brand-logo" style="width: 52px; height: 52px; font-size: 26px; margin: 0 auto 16px auto;">
+        <i class="fas fa-brain"></i>
+      </div>
+      <h2 style="font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">CowCare<span>AI</span></h2>
+      <p style="font-size: 13px; color: var(--text-secondary);">Multimodal Cattle Intelligence Platform</p>
+    </div>
+
+    <form action="{{ url_for('login') }}" method="POST">
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px;">Username</label>
+        <div style="position: relative;">
+          <i class="fas fa-user" style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+          <input type="text" name="username" required placeholder="Enter username" style="width: 100%; padding: 12px 14px 12px 42px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-main); font-size: 14px; outline: none; transition: border-color 0.2s ease;">
+        </div>
+      </div>
+
+      <div style="margin-bottom: 24px;">
+        <label style="display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px;">Password</label>
+        <div style="position: relative;">
+          <i class="fas fa-lock" style="position: absolute; left: 14px; top: 14px; color: var(--text-muted);"></i>
+          <input type="password" name="password" required placeholder="Enter password" style="width: 100%; padding: 12px 14px 12px 42px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-main); font-size: 14px; outline: none; transition: border-color 0.2s ease;">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-new-session" style="width: 100%; justify-content: center; padding: 13px; font-size: 15px;">
+        Sign In <i class="fas fa-arrow-right"></i>
+      </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 24px; font-size: 13px; color: var(--text-muted);">
+      Don't have an operator account? <a href="{{ url_for('register') }}" style="color: var(--accent-blue); font-weight: 600; text-decoration: none;">Register Now</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

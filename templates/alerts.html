@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Alert Center — CowCareAI{% endblock %}
+{% block page_title %}Alert Center & Notifications{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">
+      <i class="fas fa-bell" style="color: var(--accent-red);"></i>
+      System Alerts & Evidence Breakdown ({{ alerts | length }})
+    </div>
+  </div>
+
+  {% if alerts %}
+  <div style="display: flex; flex-direction: column; gap: 16px;">
+    {% for a in alerts %}
+    <div style="background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; border-left: 5px solid {% if (a.severity or '').lower() == 'high' %}var(--accent-red){% else %}var(--accent-amber){% endif %};">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge-status {% if (a.severity or '').lower() == 'high' %}high{% else %}attention{% endif %}">
+            {{ a.severity or 'HIGH RISK' }}
+          </span>
+          <strong style="font-size: 16px; color: var(--text-main);">{{ a.alert_type or 'High Risk Alert' }}</strong>
+          {% if a.cow_id %}
+            <span class="badge-status blue">Cow {{ a.cow_id }}</span>
+          {% endif %}
+        </div>
+        
+        <div style="font-size: 13px; color: var(--text-muted);">
+          <i class="fas fa-clock"></i> Recorded {{ a.ts }}s (Session <code style="color: var(--accent-blue);">{{ a.session_code }}</code>)
+        </div>
+      </div>
+
+      <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5;">
+        {{ a.message }}
+      </p>
+
+      {% if a.contributing_factors %}
+      <div style="font-size: 12px; color: var(--accent-amber); margin-bottom: 16px;">
+        <strong>Evidence Factors:</strong> {{ a.contributing_factors }}
+      </div>
+      {% endif %}
+
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <a href="{{ url_for('result', pid=a.prediction_id) }}" class="btn-action">
+          <i class="fas fa-eye"></i> View Session Details
+        </a>
+
+        {% if a.acknowledged %}
+        <span class="badge-status green"><i class="fas fa-check"></i> Acknowledged</span>
+        {% else %}
+        <button onclick="acknowledgeAlert({{ a.id }}, this)" class="btn-action">
+          <i class="fas fa-check-double"></i> Mark Acknowledged
+        </button>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div style="padding: 50px 20px; text-align: center; color: var(--text-muted);">
+    <i class="fas fa-circle-check" style="font-size: 44px; color: var(--accent-green); margin-bottom: 12px;"></i>
+    <p style="font-size: 16px; font-weight: 600; color: var(--text-main);">No Active System Alerts</p>
+    <p style="font-size: 13px; margin-top: 4px;">Your herd is currently operating safely within configured monitoring thresholds.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

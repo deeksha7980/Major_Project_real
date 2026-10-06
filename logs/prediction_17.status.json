@@ -1,0 +1,12 @@
+{
+  "status": "done",
+  "ts": 1791201545.119164,
+  "video": 7104297,
+  "csv": 7280,
+  "html": 250,
+  "result": {
+    "total_cows": 18,
+    "total_alerts": 1,
+    "user_quit": false
+  }
+}

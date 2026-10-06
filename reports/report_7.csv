@@ -1,0 +1,20 @@
+Cow,Behaviour_History,Latest_Behaviour
+Cow 1,eating -> eating -> eating -> standing -> standing -> standing -> standing -> standing,standing
+Cow 2,standing -> standing -> standing -> standing -> eating -> eating -> eating -> eating,eating
+Cow 3,eating -> eating -> eating -> eating -> eating -> eating -> eating -> eating,eating
+Cow 4,standing -> standing -> standing -> eating -> eating -> eating -> eating -> eating,eating
+Cow 5,eating -> eating -> eating -> eating -> standing -> standing -> standing -> standing,standing
+Cow 6,standing -> standing -> standing -> standing -> standing -> standing -> standing -> standing,standing
+Cow 7,standing -> standing -> standing -> standing -> standing -> standing -> eating -> eating,eating
+Cow 8,standing -> standing -> standing -> standing -> standing -> standing -> standing -> standing,standing
+Cow 9,standing -> standing -> standing -> standing -> standing -> standing -> standing -> standing,standing
+Cow 10,eating -> eating -> standing -> standing -> eating -> eating -> eating -> eating,eating
+Cow 11,standing -> standing -> standing -> standing -> standing -> standing -> standing -> standing,standing
+Cow 12,eating -> eating -> eating -> eating -> eating -> eating -> eating -> eating,eating
+Cow 13,eating -> eating -> eating -> eating -> eating -> eating -> standing -> standing,standing
+Cow 14,eating -> eating -> eating -> eating -> eating -> eating -> standing -> standing,standing
+Cow 15,standing -> standing -> standing -> standing -> standing -> standing -> eating -> eating,eating
+Cow 16,standing -> eating -> eating -> eating -> eating -> eating -> eating -> eating,eating
+Cow 17,eating -> standing -> standing -> standing -> standing -> standing -> standing -> standing,standing
+Cow 20,eating -> eating -> eating -> eating -> standing -> standing -> standing,standing
+Cow 21,standing -> standing -> standing -> standing -> eating -> eating -> eating,eating

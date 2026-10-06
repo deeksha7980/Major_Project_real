@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}CowCareAI — Multimodal Livestock Intelligence Platform{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">{% endblock %}
+
+{% block unauth_content %}
+<div style="max-width: 1100px; margin: 60px auto; padding: 0 20px;">
+  <div style="text-align: center; margin-bottom: 48px;">
+    <div class="brand-logo" style="width: 64px; height: 64px; font-size: 32px; margin: 0 auto 20px auto;">
+      <i class="fas fa-brain"></i>
+    </div>
+    <h1 style="font-family: 'Outfit', sans-serif; font-size: 40px; font-weight: 800; color: var(--text-main); margin-bottom: 12px;">
+      Multimodal Livestock Behavioral Intelligence
+    </h1>
+    <p style="font-size: 18px; color: var(--text-secondary); max-width: 700px; margin: 0 auto 28px auto; line-height: 1.5;">
+      Real-time cattle detection, DeepSORT cow tracking, PyTorch Audio CNN acoustic zone localization, and explainable multimodal risk scoring.
+    </p>
+    <div style="display: flex; gap: 16px; justify-content: center;">
+      <a href="{{ url_for('login') }}" class="btn-new-session" style="padding: 14px 28px; font-size: 16px;">
+        Sign In to Dashboard <i class="fas fa-arrow-right"></i>
+      </a>
+      <a href="{{ url_for('register') }}" class="btn-action" style="padding: 14px 24px; font-size: 16px;">
+        Create Account
+      </a>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
+    <div class="card" style="text-align: center; padding: 32px 20px;">
+      <div style="font-size: 36px; color: var(--accent-blue); margin-bottom: 14px;"><i class="fas fa-cow"></i></div>
+      <h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px;">Multi-Cow Tracking</h3>
+      <p style="font-size: 13px; color: var(--text-secondary);">YOLOv8 + DeepSORT track individual cows with persistent IDs and movement stats.</p>
+    </div>
+
+    <div class="card" style="text-align: center; padding: 32px 20px;">
+      <div style="font-size: 36px; color: var(--accent-purple); margin-bottom: 14px;"><i class="fas fa-headphones"></i></div>
+      <h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px;">Dual-Mic Audio CNN</h3>
+      <p style="font-size: 13px; color: var(--text-secondary);">PyTorch Audio Classifier analyzes Left & Right audio streams to detect HFC calls and acoustic zones.</p>
+    </div>
+
+    <div class="card" style="text-align: center; padding: 32px 20px;">
+      <div style="font-size: 36px; color: var(--accent-amber); margin-bottom: 14px;"><i class="fas fa-bolt"></i></div>
+      <h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px;">Statistical Anomalies</h3>
+      <p style="font-size: 13px; color: var(--text-secondary);">Z-score deviation engine detects abnormal behavioral changes against historical baselines.</p>
+    </div>
+
+    <div class="card" style="text-align: center; padding: 32px 20px;">
+      <div style="font-size: 36px; color: var(--accent-green); margin-bottom: 14px;"><i class="fas fa-shield"></i></div>
+      <h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px;">Explainable Risk Engine</h3>
+      <p style="font-size: 13px; color: var(--text-secondary);">Transparent 0–100 risk scoring with human-readable factor breakdowns and instant Telegram alerts.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

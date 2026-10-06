@@ -1,0 +1,44 @@
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\frames
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\reports
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\logs
+D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\instance
+=== pipeline_runner starting for prediction #1 ===
+cwd: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app
+video: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos\1_1791279059_8d701d_667.mp4 exists=True
+out_video target: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_1.mp4
+Telegram callback loaded
+[pipeline 15:01:08] START pid=1
+[pipeline 15:01:08] video     = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\videos\1_1791279059_8d701d_667.mp4  exists=True
+[pipeline 15:01:08] left      = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\1_1791279059_8d701d_L_low.mp3
+[pipeline 15:01:08] right     = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\1_1791279059_8d701d_R_high.mp3
+[pipeline 15:01:08] out_video = D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_1.mp4
+[pipeline 15:01:08] Loading YOLO model: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\cattle.pt  exists=True
+[pipeline 15:01:09] YOLO loaded OK
+[pipeline 15:01:09] DeepSORT ready
+[pipeline 15:01:09] Loading LEFT audio: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\1_1791279059_8d701d_L_low.mp3
+[pipeline 15:01:09] Loading RIGHT audio: D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\audio\1_1791279059_8d701d_R_high.mp3
+[pipeline 15:01:10] Audio OK: 6 windows
+[pipeline 15:01:10] Fusion weights: video=0.65 audio=0.35
+[pipeline 15:01:10] Video opened: fps=25.00  frames=250
+[pipeline 15:01:10] VideoWriter ready → D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\media\outputs\out_1.mp4
+[pipeline 15:01:10] OpenCV window opened
+C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\functional.py:445: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at  ..\aten\src\ATen\native\TensorShape.cpp:2157.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+[pipeline 15:01:35] ALERT ABNORMAL_VOCALIZATION: Abnormal vocalization on RIGHT side
+[pipeline 15:01:44] frame 30/250  active=9  cows_total=9
+[pipeline 15:02:10] frame 60/250  active=9  cows_total=9
+[pipeline 15:02:37] frame 90/250  active=9  cows_total=9
+[pipeline 15:03:02] frame 120/250  active=9  cows_total=9
+[pipeline 15:03:29] frame 150/250  active=11  cows_total=12
+[pipeline 15:04:00] frame 180/250  active=11  cows_total=12
+[pipeline 15:04:28] frame 210/250  active=9  cows_total=12
+[pipeline 15:04:56] frame 240/250  active=10  cows_total=14
+[pipeline 15:05:05] ffmpeg not found on PATH — output may not play in browsers
+[pipeline 15:05:06] Video file size on disk: 6721207 bytes
+[pipeline 15:05:06] DONE pid=1 cows=14 alerts=1
+PIPELINE_RESULT: {'total_cows': 14, 'total_alerts': 1, 'user_quit': False}
+OUTPUT SIZES: {'video': 6721207, 'csv': 5993, 'html': 249}
+=== pipeline_runner finished ===

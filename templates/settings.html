@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Settings — CowCareAI{% endblock %}
+{% block page_title %}System Configuration & Settings{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px;">
+  
+  <!-- Interface Preferences -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <i class="fas fa-sliders" style="color: var(--accent-blue);"></i>
+        Display & Interface Preferences
+      </div>
+    </div>
+    
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0;">
+      <div>
+        <div style="font-weight: 600; font-size: 14px; color: var(--text-main);">Dashboard Theme</div>
+        <div style="font-size: 12px; color: var(--text-secondary);">Switch between Dark First Obsidian theme and Clean Light theme.</div>
+      </div>
+      <button onclick="document.getElementById('themeToggleBtn').click();" class="btn-action">
+        <i class="fas fa-circle-half-stroke"></i> Toggle Theme
+      </button>
+    </div>
+  </div>
+
+  <!-- Detection & Risk Engine Parameters -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <i class="fas fa-gears" style="color: var(--accent-purple);"></i>
+        Multimodal Risk Engine Thresholds (Configured in config.py)
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 13px;">
+      <div style="background: rgba(0,0,0,0.1); padding: 14px; border-radius: 8px;">
+        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">TEMPORAL WINDOW SIZE</div>
+        <div style="font-size: 18px; font-weight: 700; color: var(--accent-blue);">5.0 Seconds</div>
+      </div>
+
+      <div style="background: rgba(0,0,0,0.1); padding: 14px; border-radius: 8px;">
+        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">STREAM SYNC TOLERANCE</div>
+        <div style="font-size: 18px; font-weight: 700; color: var(--accent-green);">1.0 Second</div>
+      </div>
+
+      <div style="background: rgba(0,0,0,0.1); padding: 14px; border-radius: 8px;">
+        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">AUDIO CONFIDENCE THRESHOLD</div>
+        <div style="font-size: 18px; font-weight: 700; color: var(--accent-amber);">60.0%</div>
+      </div>
+
+      <div style="background: rgba(0,0,0,0.1); padding: 14px; border-radius: 8px;">
+        <div style="font-size: 11px; color: var(--text-muted); font-weight: 600;">ANOMALY Z-SCORE LIMIT</div>
+        <div style="font-size: 18px; font-weight: 700; color: var(--accent-red);">2.0 Standard Deviations</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Telegram Alert Bot Status -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <i class="fab fa-telegram" style="color: #229ED9;"></i>
+        Telegram Instant Alert Dispatch Status
+      </div>
+      <span class="badge-status normal">● ONLINE</span>
+    </div>
+
+    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px;">
+      Telegram instant alert notifications dispatch compact evidence messages to your configured Bot Channel whenever High-Frequency Call vocalizations or elevated risk events are detected.
+    </p>
+
+    <div style="font-size: 12px; color: var(--text-muted); background: rgba(0,0,0,0.1); padding: 12px; border-radius: 6px;">
+      Configured Credentials: <code>TELEGRAM_BOT_TOKEN</code> & <code>TELEGRAM_CHAT_ID</code> active in <code>config.py</code>.
+    </div>
+  </div>
+
+</div>
+{% endblock %}

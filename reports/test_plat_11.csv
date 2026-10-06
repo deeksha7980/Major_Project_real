@@ -1,0 +1,72 @@
+=== COWCAREAI MULTIMODAL LIVESTOCK INTELLIGENCE REPORT ===
+Session_Code,SESSION_20261007_198
+Farm_Name,Main Farm
+Location,Barn A
+Duration_Seconds,10.0
+Total_Cows,18
+Overall_Risk_Score,58.0
+
+--- INDIVIDUAL COW PROFILES ---
+Cow_ID,Dominant_Behavior,Standing_Pct,Lying_Pct,Eating_Pct,Movement_Score,Transitions,Risk_Score,Risk_Status,Risk_Contributors
+Cow 1,standing,52.2,0.0,0.0,0.05,7,69.8,ELEVATED,"+14 behavior deviation, +25 high-frequency call events, +20 multimodal temporal correlation, +10 high proximity interactions"
+Cow 2,standing,54.2,0.0,0.0,0.06,6,67.9,ELEVATED,"+12 behavior deviation, +25 high-frequency call events, +20 multimodal temporal correlation, +10 high proximity interactions"
+Cow 3,standing,100.0,0.0,0.0,0.15,0,54.7,LOW ATTENTION,"+25 high-frequency call events, +20 multimodal temporal correlation, +8 high proximity interactions"
+Cow 4,standing,100.0,0.0,0.0,0.07,0,56.1,LOW ATTENTION,"+25 high-frequency call events, +20 multimodal temporal correlation, +10 high proximity interactions"
+Cow 5,standing,100.0,0.0,0.0,0.04,0,55.6,LOW ATTENTION,"+25 high-frequency call events, +20 multimodal temporal correlation, +10 high proximity interactions"
+Cow 6,standing,100.0,0.0,0.0,0.09,0,56.3,LOW ATTENTION,"+25 high-frequency call events, +20 multimodal temporal correlation, +10 high proximity interactions"
+Cow 7,lying,0.0,100.0,0.0,0.06,0,45.9,LOW ATTENTION,"+25 high-frequency call events, +20 multimodal temporal correlation"
+Cow 8,standing,100.0,0.0,0.0,0.1,0,56.5,LOW ATTENTION,"+25 high-frequency call events, +20 multimodal temporal correlation, +10 high proximity interactions"
+Cow 9,standing,100.0,0.0,0.0,0.08,0,56.2,LOW ATTENTION,"+25 high-frequency call events, +20 multimodal temporal correlation, +10 high proximity interactions"
+Cow 10,standing,100.0,0.0,0.0,0.07,0,56.1,LOW ATTENTION,"+25 high-frequency call events, +20 multimodal temporal correlation, +10 high proximity interactions"
+Cow 11,standing,100.0,0.0,0.0,0.02,0,55.3,LOW ATTENTION,"+25 high-frequency call events, +20 multimodal temporal correlation, +10 high proximity interactions"
+Cow 12,standing,100.0,0.0,0.0,0.15,0,47.2,LOW ATTENTION,"+25 high-frequency call events, +10 multimodal temporal correlation, +10 high proximity interactions"
+Cow 15,eating,0.0,0.0,100.0,0.0,0,42.5,LOW ATTENTION,"+25 high-frequency call events, +10 multimodal temporal correlation, +8 high proximity interactions"
+Cow 16,standing,100.0,0.0,0.0,0.21,0,48.1,LOW ATTENTION,"+25 high-frequency call events, +10 multimodal temporal correlation, +10 high proximity interactions"
+Cow 20,standing,100.0,0.0,0.0,0.08,0,33.7,LOW ATTENTION,"+25 high-frequency call events, +8 high proximity interactions"
+Cow 25,standing,100.0,0.0,0.0,0.03,0,25.4,NORMAL,+25 high-frequency call events
+Cow 27,standing,100.0,0.0,0.0,0.29,0,39.3,LOW ATTENTION,"+25 high-frequency call events, +10 high proximity interactions"
+Cow 29,standing,100.0,0.0,0.0,0.1,0,36.5,LOW ATTENTION,"+25 high-frequency call events, +10 high proximity interactions"
+
+--- TEMPORAL SESSION WINDOWS ---
+Window_Idx,Start_Time,End_Time,Cow_Count,Left_Audio_Class,Left_Conf,Right_Audio_Class,Right_Conf,Audio_Agreement,Acoustic_Zone,Window_Risk
+0,0.0,1.0,10,High-frequency call (HFC),0.9733,High-frequency call (HFC),0.7554,0.7821,LEFT-DOMINANT,69.2
+1,1.0,2.0,11,High-frequency call (HFC),0.9914,High-frequency call (HFC),0.9357,0.9443,BROAD/CENTER,77.1
+2,2.0,3.0,14,High-frequency call (HFC),0.9814,High-frequency call (HFC),0.6861,0.7047,LEFT-DOMINANT,66.7
+
+--- MULTIMODAL EVENTS ---
+Timestamp,Cow_ID,Event_Type,Visual_Evidence,Audio_Evidence,Event_Confidence,Severity
+1.0,Cow 1,MULTIMODAL_VOCALIZATION_MOTION,Cow 1 displaying active posture (velocity: 0.03),"HFC vocalization (Left: 97.3%, Right: 75.5%)",0.5,medium
+1.0,Cow 2,MULTIMODAL_VOCALIZATION_MOTION,Cow 2 displaying active posture (velocity: 0.05),"HFC vocalization (Left: 97.3%, Right: 75.5%)",0.5,medium
+1.0,Cow 3,MULTIMODAL_VOCALIZATION_MOTION,Cow 3 displaying active posture (velocity: 0.15),"HFC vocalization (Left: 97.3%, Right: 75.5%)",0.52,medium
+1.0,Cow 4,MULTIMODAL_VOCALIZATION_MOTION,Cow 4 displaying active posture (velocity: 0.14),"HFC vocalization (Left: 97.3%, Right: 75.5%)",0.52,medium
+1.0,Cow 5,MULTIMODAL_VOCALIZATION_MOTION,Cow 5 displaying active posture (velocity: 0.11),"HFC vocalization (Left: 97.3%, Right: 75.5%)",0.51,medium
+1.0,Cow 6,MULTIMODAL_VOCALIZATION_MOTION,Cow 6 displaying active posture (velocity: 0.06),"HFC vocalization (Left: 97.3%, Right: 75.5%)",0.5,medium
+1.0,Cow 7,MULTIMODAL_VOCALIZATION_MOTION,Cow 7 displaying active posture (velocity: 0.08),"HFC vocalization (Left: 97.3%, Right: 75.5%)",0.51,medium
+1.0,Cow 8,MULTIMODAL_VOCALIZATION_MOTION,Cow 8 displaying active posture (velocity: 0.09),"HFC vocalization (Left: 97.3%, Right: 75.5%)",0.51,medium
+1.0,Cow 9,MULTIMODAL_VOCALIZATION_MOTION,Cow 9 displaying active posture (velocity: 0.19),"HFC vocalization (Left: 97.3%, Right: 75.5%)",0.53,medium
+1.0,Cow 10,MULTIMODAL_VOCALIZATION_MOTION,Cow 10 displaying active posture (velocity: 0.08),"HFC vocalization (Left: 97.3%, Right: 75.5%)",0.51,medium
+2.0,Cow 1,MULTIMODAL_VOCALIZATION_MOTION,Cow 1 displaying active posture (velocity: 0.08),"HFC vocalization (Left: 99.1%, Right: 93.6%)",0.52,medium
+2.0,Cow 2,MULTIMODAL_VOCALIZATION_MOTION,Cow 2 displaying active posture (velocity: 0.09),"HFC vocalization (Left: 99.1%, Right: 93.6%)",0.52,medium
+2.0,Cow 3,MULTIMODAL_VOCALIZATION_MOTION,Cow 3 displaying active posture (velocity: 0.18),"HFC vocalization (Left: 99.1%, Right: 93.6%)",0.54,medium
+2.0,Cow 4,MULTIMODAL_VOCALIZATION_MOTION,Cow 4 displaying active posture (velocity: 0.18),"HFC vocalization (Left: 99.1%, Right: 93.6%)",0.54,medium
+2.0,Cow 5,MULTIMODAL_VOCALIZATION_MOTION,Cow 5 displaying active posture (velocity: 0.09),"HFC vocalization (Left: 99.1%, Right: 93.6%)",0.52,medium
+2.0,Cow 6,MULTIMODAL_VOCALIZATION_MOTION,Cow 6 displaying active posture (velocity: 0.18),"HFC vocalization (Left: 99.1%, Right: 93.6%)",0.54,medium
+2.0,Cow 7,MULTIMODAL_VOCALIZATION_MOTION,Cow 7 displaying active posture (velocity: 0.10),"HFC vocalization (Left: 99.1%, Right: 93.6%)",0.52,medium
+2.0,Cow 8,MULTIMODAL_VOCALIZATION_MOTION,Cow 8 displaying active posture (velocity: 0.29),"HFC vocalization (Left: 99.1%, Right: 93.6%)",0.57,medium
+2.0,Cow 9,MULTIMODAL_VOCALIZATION_MOTION,Cow 9 displaying active posture (velocity: 0.15),"HFC vocalization (Left: 99.1%, Right: 93.6%)",0.53,medium
+2.0,Cow 10,MULTIMODAL_VOCALIZATION_MOTION,Cow 10 displaying active posture (velocity: 0.15),"HFC vocalization (Left: 99.1%, Right: 93.6%)",0.53,medium
+2.0,Cow 11,MULTIMODAL_VOCALIZATION_MOTION,Cow 11 displaying active posture (velocity: 0.03),"HFC vocalization (Left: 99.1%, Right: 93.6%)",0.5,medium
+3.0,Cow 1,MULTIMODAL_VOCALIZATION_MOTION,Cow 1 displaying active posture (velocity: 0.04),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.5,medium
+3.0,Cow 2,MULTIMODAL_VOCALIZATION_MOTION,Cow 2 displaying active posture (velocity: 0.09),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.51,medium
+3.0,Cow 3,MULTIMODAL_VOCALIZATION_MOTION,Cow 3 displaying active posture (velocity: 0.30),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.57,medium
+3.0,Cow 4,MULTIMODAL_VOCALIZATION_MOTION,Cow 4 displaying active posture (velocity: 0.15),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.53,medium
+3.0,Cow 5,MULTIMODAL_VOCALIZATION_MOTION,Cow 5 displaying active posture (velocity: 0.07),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.51,medium
+3.0,Cow 6,MULTIMODAL_VOCALIZATION_MOTION,Cow 6 displaying active posture (velocity: 0.30),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.57,medium
+3.0,Cow 7,MULTIMODAL_VOCALIZATION_MOTION,Cow 7 displaying active posture (velocity: 0.12),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.52,medium
+3.0,Cow 8,MULTIMODAL_VOCALIZATION_MOTION,Cow 8 displaying active posture (velocity: 0.35),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.58,medium
+3.0,Cow 9,MULTIMODAL_VOCALIZATION_MOTION,Cow 9 displaying active posture (velocity: 0.12),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.52,medium
+3.0,Cow 10,MULTIMODAL_VOCALIZATION_MOTION,Cow 10 displaying active posture (velocity: 0.23),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.55,medium
+3.0,Cow 11,MULTIMODAL_VOCALIZATION_MOTION,Cow 11 displaying active posture (velocity: 0.02),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.5,medium
+3.0,Cow 12,MULTIMODAL_VOCALIZATION_MOTION,Cow 12 displaying active posture (velocity: 0.81),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.69,medium
+3.0,Cow 15,MULTIMODAL_VOCALIZATION_MOTION,Cow 15 displaying active posture (velocity: 0.00),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.49,medium
+3.0,Cow 16,MULTIMODAL_VOCALIZATION_MOTION,Cow 16 displaying active posture (velocity: 0.34),"HFC vocalization (Left: 98.1%, Right: 68.6%)",0.58,medium

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\pipeline_runner.py", line 5, in <module>
+    from pipeline import run as pipeline_run
+  File "D:\Downloads\livestock_monitoring_flask_app\livestock_monitoring_flask_app\pipeline.py", line 11, in <module>
+    from ultralytics import YOLO
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\ultralytics\__init__.py", line 14, in <module>
+    from ultralytics.utils import ASSETS, SETTINGS
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\ultralytics\utils\__init__.py", line 26, in <module>
+    import torch
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\__init__.py", line 29, in <module>
+    from .torch_version import __version__ as __version__
+  File "C:\Users\ADMIN\AppData\Local\Programs\Python\Python39\lib\site-packages\torch\torch_version.py", line 3, in <module>
+    from pkg_resources import packaging  # type: ignore[attr-defined]
+ModuleNotFoundError: No module named 'pkg_resources'
